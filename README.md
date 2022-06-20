@@ -12,7 +12,6 @@ ATM128A 와 MicrochipStudio 를 활용한 실습
 
 ## Day 2
 - Interrupt 학습
-  - Fnd
-    - 얘는 왜 빨개
-  - Led
-  - LCD
+  - Fnd : Interrupt에 따른 Fnd 정지 및 시작
+  - Led : Interrupt 발생 시 shift 방향 변경
+  - LCD : Interrupt 발생 시 멈춤, lcd창에 interrupt 발생 문구 출력. 다시 발생 시 해당 시점 복귀
