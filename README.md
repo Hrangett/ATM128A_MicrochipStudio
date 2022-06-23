@@ -24,3 +24,8 @@ ATM128A 와 MicrochipStudio 를 활용한 실습
   - 0번 인터럽트 - 오버플로우 인터럽트를 이용해서 1초마다 LED 점등
   - OVerflow interrupt 발생 시 LED 점등(1초)
   - OVerflow interrupt 발생 시 FND 숫자 변경(1초) 
+
+## Day 4
+- TimerCount(16Bit)
+- TimerCount PWM
+- 타이머 카운터와 분주비에 대한 이해!
