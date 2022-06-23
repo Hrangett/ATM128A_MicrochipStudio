@@ -3,31 +3,31 @@ Timer_Counter(16 bit).elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000012  00800100  00000118  000001ac  2**0
+  0 .data         00000012  00800100  000001c6  0000025a  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         00000118  00000000  00000000  00000094  2**1
+  1 .text         000001c6  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          00000002  00800112  00800112  000001be  2**0
+  2 .bss          00000003  00800112  00800112  0000026c  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  000001be  2**0
+  3 .comment      00000030  00000000  00000000  0000026c  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000001f0  2**2
+  4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  0000029c  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000028  00000000  00000000  00000230  2**0
+  5 .debug_aranges 00000028  00000000  00000000  000002dc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   000008a0  00000000  00000000  00000258  2**0
+  6 .debug_info   000008a0  00000000  00000000  00000304  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 000007bf  00000000  00000000  00000af8  2**0
+  7 .debug_abbrev 000007bf  00000000  00000000  00000ba4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   000002a9  00000000  00000000  000012b7  2**0
+  8 .debug_line   000002af  00000000  00000000  00001363  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000064  00000000  00000000  00001560  2**2
+  9 .debug_frame  00000068  00000000  00000000  00001614  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000424  00000000  00000000  000015c4  2**0
+ 10 .debug_str    00000421  00000000  00000000  0000167c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    000000a2  00000000  00000000  000019e8  2**0
+ 11 .debug_loc    000000af  00000000  00000000  00001a9d  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000018  00000000  00000000  00001a8a  2**0
+ 12 .debug_ranges 00000018  00000000  00000000  00001b4c  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -83,7 +83,7 @@ Disassembly of section .text:
   5e:	00 00       	nop
   60:	32 c0       	rjmp	.+100    	; 0xc6 <__bad_interrupt>
   62:	00 00       	nop
-  64:	30 c0       	rjmp	.+96     	; 0xc6 <__bad_interrupt>
+  64:	5a c0       	rjmp	.+180    	; 0x11a <__vector_25>
   66:	00 00       	nop
   68:	2e c0       	rjmp	.+92     	; 0xc6 <__bad_interrupt>
   6a:	00 00       	nop
@@ -116,7 +116,7 @@ Disassembly of section .text:
   98:	11 e0       	ldi	r17, 0x01	; 1
   9a:	a0 e0       	ldi	r26, 0x00	; 0
   9c:	b1 e0       	ldi	r27, 0x01	; 1
-  9e:	e8 e1       	ldi	r30, 0x18	; 24
+  9e:	e6 ec       	ldi	r30, 0xC6	; 198
   a0:	f1 e0       	ldi	r31, 0x01	; 1
   a2:	00 e0       	ldi	r16, 0x00	; 0
   a4:	0b bf       	out	0x3b, r16	; 59
@@ -137,11 +137,11 @@ Disassembly of section .text:
   ba:	1d 92       	st	X+, r1
 
 000000bc <.do_clear_bss_start>:
-  bc:	a4 31       	cpi	r26, 0x14	; 20
+  bc:	a5 31       	cpi	r26, 0x15	; 21
   be:	b2 07       	cpc	r27, r18
   c0:	e1 f7       	brne	.-8      	; 0xba <.do_clear_bss_loop>
   c2:	02 d0       	rcall	.+4      	; 0xc8 <main>
-  c4:	27 c0       	rjmp	.+78     	; 0x114 <_exit>
+  c4:	7e c0       	rjmp	.+252    	; 0x1c2 <_exit>
 
 000000c6 <__bad_interrupt>:
   c6:	9c cf       	rjmp	.-200    	; 0x0 <__vectors>
@@ -159,50 +159,160 @@ int main()
   cc:	12 b8       	out	0x02, r1	; 2
 	
 	
-	TCCR3A = 0x00;
+	TCCR3A = 0x00;	//normal, OCn 분리
   ce:	10 92 8b 00 	sts	0x008B, r1	; 0x80008b <__TEXT_REGION_LENGTH__+0x7e008b>
-	TCCR3B = 0x45;
+	//TCCR3B = 0x45;
+	TCCR3B =  1<<ICES3 |1<<CS32 | 1<<CS30;		//0100 0101 :: 분주비(프리스케일러) 1024,  1로 설정시, 상승(양)에지에서 검출, 0은 하강엣지에서 검출
   d2:	85 e4       	ldi	r24, 0x45	; 69
   d4:	80 93 8a 00 	sts	0x008A, r24	; 0x80008a <__TEXT_REGION_LENGTH__+0x7e008a>
+	ETIMSK = 0x20;
+  d8:	80 e2       	ldi	r24, 0x20	; 32
+  da:	80 93 7d 00 	sts	0x007D, r24	; 0x80007d <__TEXT_REGION_LENGTH__+0x7e007d>
 	ETIFR |= 1<< ICF3;
-  d8:	ec e7       	ldi	r30, 0x7C	; 124
-  da:	f0 e0       	ldi	r31, 0x00	; 0
-  dc:	80 81       	ld	r24, Z
-  de:	80 62       	ori	r24, 0x20	; 32
-  e0:	80 83       	st	Z, r24
+  de:	ec e7       	ldi	r30, 0x7C	; 124
+  e0:	f0 e0       	ldi	r31, 0x00	; 0
+  e2:	80 81       	ld	r24, Z
+  e4:	80 62       	ori	r24, 0x20	; 32
+  e6:	80 83       	st	Z, r24
 	
 	sei();
-  e2:	78 94       	sei
+  e8:	78 94       	sei
 	
 	PORTA = FND_DATA[0];
-  e4:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
-  e8:	8b bb       	out	0x1b, r24	; 27
+  ea:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
+  ee:	8b bb       	out	0x1b, r24	; 27
 	
 	while (1) {
 		if(FND_flag) {
-  ea:	80 91 12 01 	lds	r24, 0x0112	; 0x800112 <__data_end>
-  ee:	88 23       	and	r24, r24
-  f0:	e1 f3       	breq	.-8      	; 0xea <main+0x22>
+  f0:	80 91 13 01 	lds	r24, 0x0113	; 0x800113 <FND_flag>
+  f4:	88 23       	and	r24, r24
+  f6:	e1 f3       	breq	.-8      	; 0xf0 <main+0x28>
 			if(time_s > 15) // 최대 1.5초까지 표시(F)
-  f2:	80 91 13 01 	lds	r24, 0x0113	; 0x800113 <time_s>
-  f6:	80 31       	cpi	r24, 0x10	; 16
-  f8:	18 f0       	brcs	.+6      	; 0x100 <main+0x38>
+  f8:	80 91 14 01 	lds	r24, 0x0114	; 0x800114 <time_s>
+  fc:	80 31       	cpi	r24, 0x10	; 16
+  fe:	18 f0       	brcs	.+6      	; 0x106 <main+0x3e>
 			time_s = 15;
-  fa:	8f e0       	ldi	r24, 0x0F	; 15
-  fc:	80 93 13 01 	sts	0x0113, r24	; 0x800113 <time_s>
+ 100:	8f e0       	ldi	r24, 0x0F	; 15
+ 102:	80 93 14 01 	sts	0x0114, r24	; 0x800114 <time_s>
 			PORTA = FND_DATA[time_s]; // 포트A에 FND Table 값 출력
- 100:	e0 91 13 01 	lds	r30, 0x0113	; 0x800113 <time_s>
- 104:	f0 e0       	ldi	r31, 0x00	; 0
- 106:	e0 50       	subi	r30, 0x00	; 0
- 108:	ff 4f       	sbci	r31, 0xFF	; 255
- 10a:	80 81       	ld	r24, Z
- 10c:	8b bb       	out	0x1b, r24	; 27
+ 106:	e0 91 14 01 	lds	r30, 0x0114	; 0x800114 <time_s>
+ 10a:	f0 e0       	ldi	r31, 0x00	; 0
+ 10c:	e0 50       	subi	r30, 0x00	; 0
+ 10e:	ff 4f       	sbci	r31, 0xFF	; 255
+ 110:	80 81       	ld	r24, Z
+ 112:	8b bb       	out	0x1b, r24	; 27
 			FND_flag = 0;
- 10e:	10 92 12 01 	sts	0x0112, r1	; 0x800112 <__data_end>
- 112:	eb cf       	rjmp	.-42     	; 0xea <main+0x22>
+ 114:	10 92 13 01 	sts	0x0113, r1	; 0x800113 <FND_flag>
+ 118:	eb cf       	rjmp	.-42     	; 0xf0 <main+0x28>
 
-00000114 <_exit>:
- 114:	f8 94       	cli
+0000011a <__vector_25>:
 
-00000116 <__stop_program>:
- 116:	ff cf       	rjmp	.-2      	; 0x116 <__stop_program>
+	return 0;
+}
+
+SIGNAL(TIMER3_CAPT_vect)
+{
+ 11a:	1f 92       	push	r1
+ 11c:	0f 92       	push	r0
+ 11e:	0f b6       	in	r0, 0x3f	; 63
+ 120:	0f 92       	push	r0
+ 122:	11 24       	eor	r1, r1
+ 124:	2f 93       	push	r18
+ 126:	3f 93       	push	r19
+ 128:	6f 93       	push	r22
+ 12a:	7f 93       	push	r23
+ 12c:	8f 93       	push	r24
+ 12e:	9f 93       	push	r25
+ 130:	af 93       	push	r26
+ 132:	bf 93       	push	r27
+	
+	cli();
+ 134:	f8 94       	cli
+	
+	unsigned int count_check;
+	
+	if(edge_flag == 0)
+ 136:	80 91 12 01 	lds	r24, 0x0112	; 0x800112 <__data_end>
+ 13a:	81 11       	cpse	r24, r1
+ 13c:	0f c0       	rjmp	.+30     	; 0x15c <__vector_25+0x42>
+	{
+		
+		TCCR3B = 0x05;
+ 13e:	85 e0       	ldi	r24, 0x05	; 5
+ 140:	80 93 8a 00 	sts	0x008A, r24	; 0x80008a <__TEXT_REGION_LENGTH__+0x7e008a>
+		TCNT3 = 0;
+ 144:	10 92 89 00 	sts	0x0089, r1	; 0x800089 <__TEXT_REGION_LENGTH__+0x7e0089>
+ 148:	10 92 88 00 	sts	0x0088, r1	; 0x800088 <__TEXT_REGION_LENGTH__+0x7e0088>
+		ICR3 = 0;
+ 14c:	10 92 81 00 	sts	0x0081, r1	; 0x800081 <__TEXT_REGION_LENGTH__+0x7e0081>
+ 150:	10 92 80 00 	sts	0x0080, r1	; 0x800080 <__TEXT_REGION_LENGTH__+0x7e0080>
+		edge_flag = 1;
+ 154:	81 e0       	ldi	r24, 0x01	; 1
+ 156:	80 93 12 01 	sts	0x0112, r24	; 0x800112 <__data_end>
+ 15a:	16 c0       	rjmp	.+44     	; 0x188 <__vector_25+0x6e>
+	}
+	else
+	{
+		TCCR3B = 0x45;
+ 15c:	85 e4       	ldi	r24, 0x45	; 69
+ 15e:	80 93 8a 00 	sts	0x008A, r24	; 0x80008a <__TEXT_REGION_LENGTH__+0x7e008a>
+		count_check = ICR3;
+ 162:	20 91 80 00 	lds	r18, 0x0080	; 0x800080 <__TEXT_REGION_LENGTH__+0x7e0080>
+ 166:	30 91 81 00 	lds	r19, 0x0081	; 0x800081 <__TEXT_REGION_LENGTH__+0x7e0081>
+		
+		time_s = count_check / 720;
+ 16a:	a3 e8       	ldi	r26, 0x83	; 131
+ 16c:	bd e2       	ldi	r27, 0x2D	; 45
+ 16e:	1a d0       	rcall	.+52     	; 0x1a4 <__umulhisi3>
+ 170:	88 0f       	add	r24, r24
+ 172:	89 2f       	mov	r24, r25
+ 174:	88 1f       	adc	r24, r24
+ 176:	99 0b       	sbc	r25, r25
+ 178:	91 95       	neg	r25
+ 17a:	80 93 14 01 	sts	0x0114, r24	; 0x800114 <time_s>
+		
+		FND_flag = 1;
+ 17e:	81 e0       	ldi	r24, 0x01	; 1
+ 180:	80 93 13 01 	sts	0x0113, r24	; 0x800113 <FND_flag>
+		edge_flag = 0;
+ 184:	10 92 12 01 	sts	0x0112, r1	; 0x800112 <__data_end>
+		
+	}
+	sei();
+ 188:	78 94       	sei
+ 18a:	bf 91       	pop	r27
+ 18c:	af 91       	pop	r26
+ 18e:	9f 91       	pop	r25
+ 190:	8f 91       	pop	r24
+ 192:	7f 91       	pop	r23
+ 194:	6f 91       	pop	r22
+ 196:	3f 91       	pop	r19
+ 198:	2f 91       	pop	r18
+ 19a:	0f 90       	pop	r0
+ 19c:	0f be       	out	0x3f, r0	; 63
+ 19e:	0f 90       	pop	r0
+ 1a0:	1f 90       	pop	r1
+ 1a2:	18 95       	reti
+
+000001a4 <__umulhisi3>:
+ 1a4:	a2 9f       	mul	r26, r18
+ 1a6:	b0 01       	movw	r22, r0
+ 1a8:	b3 9f       	mul	r27, r19
+ 1aa:	c0 01       	movw	r24, r0
+ 1ac:	a3 9f       	mul	r26, r19
+ 1ae:	70 0d       	add	r23, r0
+ 1b0:	81 1d       	adc	r24, r1
+ 1b2:	11 24       	eor	r1, r1
+ 1b4:	91 1d       	adc	r25, r1
+ 1b6:	b2 9f       	mul	r27, r18
+ 1b8:	70 0d       	add	r23, r0
+ 1ba:	81 1d       	adc	r24, r1
+ 1bc:	11 24       	eor	r1, r1
+ 1be:	91 1d       	adc	r25, r1
+ 1c0:	08 95       	ret
+
+000001c2 <_exit>:
+ 1c2:	f8 94       	cli
+
+000001c4 <__stop_program>:
+ 1c4:	ff cf       	rjmp	.-2      	; 0x1c4 <__stop_program>

@@ -128,9 +128,9 @@
     <None Include="04_uart.c">
       <SubType>compile</SubType>
     </None>
-    <None Include="01_uart.c">
+    <Compile Include="01_uart.c">
       <SubType>compile</SubType>
-    </None>
+    </Compile>
     <None Include="02_uart.c">
       <SubType>compile</SubType>
     </None>
@@ -139,6 +139,16 @@
     <None Include="05_uart.c">
       <SubType>compile</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="06_multiplication table.c">
+      <SubType>compile</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="07_Piano_keyPad.c">
+      <SubType>compile</SubType>
+    </Compile>
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>

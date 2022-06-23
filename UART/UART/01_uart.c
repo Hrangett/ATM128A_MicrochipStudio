@@ -5,7 +5,7 @@
  * Author : PKNU
  */ 
 
-#define F_CPU=14745600
+#define F_CPU 14745600
 #include <avr/io.h>
 
 void putch(unsigned char data)
@@ -23,10 +23,13 @@ int main(void)
     unsigned char text[] = "Hello! World!! \r\n";
 	unsigned char i = 0;
 	
-	DDRE = 0xfe;			// Rx입력, tx 출력으로 설정 :: 데이터 시트 참고
+	DDRE = 0x02;			// Rx입력, tx 출력으로 설정 :: 데이터 시트 참고  0000 0110
+	
+	
+	
 	
 	UCSR0A = 0x00;
-	UCSR0B = 0x18;			//Rx, Tx enable
+	UCSR0B = 1<<RXEN0|1<<TXEN0;			//Rx, Tx enable 0001 1000
 	UCSR0C = 0x06;			//비동기식 방식
 	
 	UBRR0H = 0x00;	
