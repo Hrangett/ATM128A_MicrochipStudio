@@ -25,8 +25,7 @@ int main(void)
 		_delay_ms(100);
 		
 		PORTD = 0x80;	//1000 0000 => 4 step
-		_delay_ms(100);
-		
+		_delay_ms(200);
 		
 		
     }
