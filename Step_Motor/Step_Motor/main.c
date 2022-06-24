@@ -16,16 +16,16 @@ int main(void)
     while (1) 
     {
 		PORTD = 0x10;	// 0001 0000 => 1 step
-		_delay_ms(100) ;
+		_delay_ms(1000) ;
 		
 		PORTD = 0x20;	//0010 0000 => 2 step
-		_delay_ms(100);
+		_delay_ms(1000);
 		
 		PORTD = 0x40;	//0100 0000 => 3 step
-		_delay_ms(100);
+		_delay_ms(1000);
 		
 		PORTD = 0x80;	//1000 0000 => 4 step
-		_delay_ms(200);
+		_delay_ms(2000);
 		
 		
     }
