@@ -53,7 +53,8 @@ int main()
 	DDRC = 0xFf;
 	init_keypad();
 	
-	while(1){
+	while(1)
+	{
 		unsigned char key = keyscan();
 		if(key == '1') PORTC = 0x01;
 		else if(key == '2') PORTC = 0x02;

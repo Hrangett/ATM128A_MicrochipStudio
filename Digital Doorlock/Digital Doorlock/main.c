@@ -17,9 +17,16 @@ unsigned char btn_check(unsigned char pw[]);
 void Open_Door();
 void Buzzer(unsigned char mode);
 void check(unsigned char pw);
+void Door_lock();
 
 unsigned char PW[5] = "1111";
 unsigned int DoReMi[8] = {523,587, 659, 698, 783,880, 987, 1046};
+
+unsigned char signal = 0;
+SIGNAL(INT7_vect)
+{
+	signal = ~signal;
+}
 
 int main(void)
 {
@@ -35,35 +42,73 @@ int main(void)
 
 	*/
 	
+	
+	
 	DDRF = 0xF8;	//button
 	PORTF = 0x07;	//0b 0000 0111
-	
+		
 	DDRC = 0xFF;	//Motor
-	
+		
 	DDRA = 0xFF;	//LCD
-	DDRG = 0xFF;	//LCD 친구 
-	
+	DDRG = 0xFF;	//LCD 친구
+		
 	DDRB = 0x80;	//PIEZO
-	
+		
 	//TCCR1A = 0x00; // WGM1(1:0) = “00”
 	TCCR1B |= (1 << WGM13) | (1 << WGM12);// WGM1(3:2) = “11”
 	TCCR1B |= (1 << CS10); // CS1(2:0) = “001” 1분주 사용
 	TCCR1C = 0x00; // WGM1(3:0) = “1100”, CTC, 모드 12
-	
+		
 	TCNT1 = 0x0000;
 	
-	unsigned char pw[5];
-	unsigned char temp = 0;
-	unsigned char temp02[15] = {0};
-	int btn_cnt = 0;
+	EIMSK = 1 << INT7;
+	//EICRA = 1 << ISC01 | 0 << ISC00;
+	EICRB = 1 << ISC71;	//기본설정값이 0이다 => 0은 굳이 설정하지않아도 된다.
+	//하강 엣지 :: Height -> Low LEVEL :: 버튼을 땔 때 동작
+	//상승 엣지 :: Low -> Height LEVEL :: 버튼을 누를 때 동작
+	
+	sei();
 	
 	Lcd_Init();
 	_delay_ms(500);
 	Lcd_Clear();
 	_delay_ms(15);
+	while(1)
+	{
+
+		
+		if(signal)
+		{
+			Door_lock();
+		}
+		else
+		{	
+			Lcd_Clear();
+			_delay_ms(15);
+			Lcd_Pos(0,0);
+			Lcd_STR((unsigned char*)"***Locked***");
+			
+		}
+		_delay_ms(1010);
+		
+	}
 	
-    while (1) 
-    {	
+	return 0;
+}
+
+void Door_lock()
+{
+		
+	unsigned char pw[5];
+	unsigned char temp = 0;
+	unsigned char temp02[15] = {0};
+	int btn_cnt = 0;
+	
+	
+	//while (1) 
+	//{	
+		Lcd_STR((unsigned char*)signal);
+			
 		//초기화
 		for (int i =0 ; i <5 ; i++)
 		{
@@ -134,13 +179,11 @@ int main(void)
 			_delay_ms(10);
 			
 			btn_cnt = 0;
-			
 
-				
-			
 		}
-    }
-	return 0;
+	//}
+	
+
 }
 
 
