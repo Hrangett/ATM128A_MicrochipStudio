@@ -1,15 +1,15 @@
 Archive member included to satisfy reference by file (symbol)
 
 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_udivmodsi4.o)
-                              main.o (__udivmodsi4)
+                              main_UART.o (__udivmodsi4)
 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_exit.o)
                               C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/atmega128a/avr51/crtatmega128a.o (exit)
 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_copy_data.o)
-                              main.o (__do_copy_data)
+                              main_UART.o (__do_copy_data)
 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_clear_bss.o)
-                              main.o (__do_clear_bss)
+                              main_UART.o (__do_clear_bss)
 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr51\libc.a(strcmp.o)
-                              main.o (strcmp)
+                              main_UART.o (strcmp)
 
 Discarded input sections
 
@@ -20,10 +20,10 @@ Discarded input sections
  .bss           0x00000000        0x0 lcd.o
  .text.Lcd_Shift
                 0x00000000       0x30 lcd.o
- .text          0x00000000        0x0 main.o
- .data          0x00000000        0x0 main.o
- .bss           0x00000000        0x0 main.o
- .text.check    0x00000000       0x5c main.o
+ .text          0x00000000        0x0 main_UART.o
+ .data          0x00000000        0x0 main_UART.o
+ .bss           0x00000000        0x0 main_UART.o
+ .text.check    0x00000000       0x5c main_UART.o
  .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_udivmodsi4.o)
  .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_udivmodsi4.o)
  .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_udivmodsi4.o)
@@ -107,7 +107,7 @@ Linker script and memory map
 Address of section .data set to 0x800100
 LOAD C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/atmega128a/avr51/crtatmega128a.o
 LOAD lcd.o
-LOAD main.o
+LOAD main_UART.o
 START GROUP
 LOAD c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr51\libm.a
 END GROUP
@@ -217,7 +217,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x662
+.text           0x00000000      0x824
  *(.vectors)
  .vectors       0x00000000       0x8c C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/atmega128a/avr51/crtatmega128a.o
                 0x00000000                __vector_default
@@ -331,34 +331,41 @@ END GROUP
                 0x0000017e       0x54 lcd.o
                 0x0000017e                Lcd_Init
  .text.__vector_8
-                0x000001d2       0x22 main.o
+                0x000001d2       0x2a main_UART.o
                 0x000001d2                __vector_8
- .text.keyscan  0x000001f4      0x108 main.o
-                0x000001f4                keyscan
+ .text.putch    0x000001fc        0xe main_UART.o
+                0x000001fc                putch
+ .text.putstr   0x0000020a       0x2a main_UART.o
+                0x0000020a                putstr
+ .text.getch    0x00000234       0x1c main_UART.o
+                0x00000234                getch
+ .text.keyscan  0x00000250      0x108 main_UART.o
+                0x00000250                keyscan
  .text.btn_check
-                0x000002fc       0x12 main.o
-                0x000002fc                btn_check
+                0x00000358       0x12 main_UART.o
+                0x00000358                btn_check
  .text.Open_Door
-                0x0000030e       0x5a main.o
-                0x0000030e                Open_Door
- .text.Buzzer   0x00000368       0xc4 main.o
-                0x00000368                Buzzer
- .text.Door_lock
-                0x0000042c      0x14e main.o
-                0x0000042c                Door_lock
- .text.main     0x0000057a       0x8e main.o
-                0x0000057a                main
+                0x0000036a       0x62 main_UART.o
+                0x0000036a                Open_Door
+ .text.Buzzer   0x000003cc       0xc4 main_UART.o
+                0x000003cc                Buzzer
+ .text.Intr     0x00000490      0x15e main_UART.o
+                0x00000490                Intr
+ .text.Urt      0x000005ee      0x158 main_UART.o
+                0x000005ee                Urt
+ .text.main     0x00000746       0x84 main_UART.o
+                0x00000746                main
  .text.libgcc.div
-                0x00000608       0x44 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_udivmodsi4.o)
-                0x00000608                __udivmodsi4
+                0x000007ca       0x44 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_udivmodsi4.o)
+                0x000007ca                __udivmodsi4
  .text.avr-libc
-                0x0000064c       0x12 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr51\libc.a(strcmp.o)
-                0x0000064c                strcmp
-                0x0000065e                . = ALIGN (0x2)
+                0x0000080e       0x12 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr51\libc.a(strcmp.o)
+                0x0000080e                strcmp
+                0x00000820                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x0000065e        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_exit.o)
-                0x0000065e                _exit
-                0x0000065e                exit
+ .fini9         0x00000820        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_exit.o)
+                0x00000820                _exit
+                0x00000820                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -377,44 +384,46 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x0000065e        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_exit.o)
+ .fini0         0x00000820        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_exit.o)
  *(.fini0)
-                0x00000662                _etext = .
+                0x00000824                _etext = .
 
-.data           0x00800100       0x3a load address 0x00000662
+.data           0x00800100       0x56 load address 0x00000824
                 0x00800100                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
- .data.DoReMi   0x00800100       0x10 main.o
+ .data.DoReMi   0x00800100       0x10 main_UART.o
                 0x00800100                DoReMi
- .data.PW       0x00800110        0x5 main.o
+ .data.PW       0x00800110        0x5 main_UART.o
                 0x00800110                PW
  *(.gnu.linkonce.d*)
  *(.rodata)
  *(.rodata*)
  .rodata.str1.1
-                0x00800115       0x25 main.o
+                0x00800115       0x40 main_UART.o
+                                 0x4b (size before relaxing)
  *(.gnu.linkonce.r*)
-                0x0080013a                . = ALIGN (0x2)
-                0x0080013a                _edata = .
-                0x0080013a                PROVIDE (__data_end, .)
+                0x00800156                . = ALIGN (0x2)
+ *fill*         0x00800155        0x1 
+                0x00800156                _edata = .
+                0x00800156                PROVIDE (__data_end, .)
 
-.bss            0x0080013a        0x1
-                0x0080013a                PROVIDE (__bss_start, .)
+.bss            0x00800156        0x1
+                0x00800156                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
- .bss.signal    0x0080013a        0x1 main.o
-                0x0080013a                signal
+ .bss.signal    0x00800156        0x1 main_UART.o
+                0x00800156                signal
  *(COMMON)
-                0x0080013b                PROVIDE (__bss_end, .)
-                0x00000662                __data_load_start = LOADADDR (.data)
-                0x0000069c                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00800157                PROVIDE (__bss_end, .)
+                0x00000824                __data_load_start = LOADADDR (.data)
+                0x0000087a                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x0080013b        0x0
+.noinit         0x00800157        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
  *(.noinit*)
                 [!provide]                PROVIDE (__noinit_end, .)
-                0x0080013b                _end = .
+                0x00800157                _end = .
                 [!provide]                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
@@ -458,7 +467,7 @@ END GROUP
  *(.comment)
  .comment       0x00000000       0x30 lcd.o
                                  0x31 (size before relaxing)
- .comment       0x00000030       0x31 main.o
+ .comment       0x00000030       0x31 main_UART.o
 
 .note.gnu.avr.deviceinfo
                 0x00000000       0x40
@@ -480,51 +489,51 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000       0xb0
+.debug_aranges  0x00000000       0xd0
  *(.debug_aranges)
  .debug_aranges
                 0x00000000       0x58 lcd.o
  .debug_aranges
-                0x00000058       0x58 main.o
+                0x00000058       0x78 main_UART.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x18b0
+.debug_info     0x00000000     0x1c26
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0x780 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/atmega128a/avr51/crtatmega128a.o
  .debug_info    0x00000780      0x61b lcd.o
- .debug_info    0x00000d9b      0xb15 main.o
+ .debug_info    0x00000d9b      0xe8b main_UART.o
 
-.debug_abbrev   0x00000000      0xb61
+.debug_abbrev   0x00000000      0xbad
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x718 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/atmega128a/avr51/crtatmega128a.o
  .debug_abbrev  0x00000718      0x16a lcd.o
- .debug_abbrev  0x00000882      0x2df main.o
+ .debug_abbrev  0x00000882      0x32b main_UART.o
 
-.debug_line     0x00000000      0x98a
+.debug_line     0x00000000      0xbd8
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x16a C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/atmega128a/avr51/crtatmega128a.o
  .debug_line    0x0000016a      0x2b5 lcd.o
- .debug_line    0x0000041f      0x56b main.o
+ .debug_line    0x0000041f      0x7b9 main_UART.o
 
-.debug_frame    0x00000000      0x17c
+.debug_frame    0x00000000      0x200
  *(.debug_frame)
  .debug_frame   0x00000000       0xa0 lcd.o
- .debug_frame   0x000000a0       0xdc main.o
+ .debug_frame   0x000000a0      0x160 main_UART.o
 
-.debug_str      0x00000000      0x4f0
+.debug_str      0x00000000      0x508
  *(.debug_str)
  .debug_str     0x00000000      0x27d C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/atmega128a/avr51/crtatmega128a.o
  .debug_str     0x0000027d      0x1ea lcd.o
                                 0x21e (size before relaxing)
- .debug_str     0x00000467       0x89 main.o
-                                0x26f (size before relaxing)
+ .debug_str     0x00000467       0xa1 main_UART.o
+                                0x287 (size before relaxing)
 
-.debug_loc      0x00000000      0xe17
+.debug_loc      0x00000000     0x11a8
  *(.debug_loc)
  .debug_loc     0x00000000      0x4be lcd.o
- .debug_loc     0x000004be      0x959 main.o
+ .debug_loc     0x000004be      0xcea main_UART.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -544,10 +553,10 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000       0xc0
+.debug_ranges   0x00000000       0xf8
  *(.debug_ranges)
  .debug_ranges  0x00000000       0x48 lcd.o
- .debug_ranges  0x00000048       0x78 main.o
+ .debug_ranges  0x00000048       0xb0 main_UART.o
 
 .debug_macro
  *(.debug_macro)

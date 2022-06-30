@@ -40,6 +40,7 @@ int main(void)
 	2.
 	INTERRUPT BUTTON을 누르면 통신을 통해 비밀번호 입력, 이후 동작은 동일
 
+	
 	*/
 	
 	
@@ -107,7 +108,6 @@ void Door_lock()
 	
 	//while (1) 
 	//{	
-		Lcd_STR((unsigned char*)signal);
 			
 		//초기화
 		for (int i =0 ; i <5 ; i++)
